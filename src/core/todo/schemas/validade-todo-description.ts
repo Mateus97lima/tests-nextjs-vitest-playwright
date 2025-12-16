@@ -7,8 +7,8 @@ type validadeTodoDescriptionProps= {
 export function validadeTodoDescription(description: string): validadeTodoDescriptionProps {
 const errors = [];
 
-if(description.length < 3) {
-errors.push('Descrição precisa ter no minimo 3 caracteres')
+if(description.length <= 3) {
+errors.push('Descrição precisa ter mais de 3 caracteres')
 }
 
 

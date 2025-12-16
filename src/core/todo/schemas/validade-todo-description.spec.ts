@@ -1,6 +1,6 @@
 import { validadeTodoDescription } from './validade-todo-description';
 
-describe('validateTodoDescription (unit)', () => {
+describe('validadeTodoDescription (unit)', () => {
   test('deve retornar erros quando a descrição tem menos que 4 caracteres', () => {
     const description = 'abc';
     const result = validadeTodoDescription(description);
