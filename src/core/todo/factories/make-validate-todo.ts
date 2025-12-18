@@ -1,25 +1,27 @@
 import { sanitizeStr } from "@/utils/sanitize-str";
-import { validadeTodoDescription } from "../schemas/validade-todo-description";
+
 import { makeNewTodo } from "./make-new-todo";
 import { Todo } from "../schemas/todo.contract";
+import { validateTodoDescription } from "../schemas/validate-todo-description";
 
-type MakeInválido = { // fiz validate para quando for false //
+export type MakeInválido = { // fiz validate para quando for false //
     success: false,
     errors: string[],
 }
 
-type MakeVálido = { // fiz validate para quando for true //
+export type MakeVálido = { // fiz validate para quando for true //
     success: true,
     data: Todo
 }
 
-type MakeValidateTodo = MakeVálido | MakeInválido
+export type MakeValidateTodo = MakeVálido | MakeInválido
 
  export function makeValidateTodo (description: string): MakeValidateTodo  {
 const cleandescription = sanitizeStr(description)
-const validatedescription = validadeTodoDescription(cleandescription)
+const validatedDescription = validateTodoDescription(cleandescription)
 
-if(validatedescription.success){
+if(validatedDescription.success){
+    
    return {
     success: true,
     data: makeNewTodo(cleandescription)
@@ -28,6 +30,6 @@ if(validatedescription.success){
 
 return {
     success:false,
-    errors: validatedescription.errors
+    errors: validatedDescription.errors
 }
 }

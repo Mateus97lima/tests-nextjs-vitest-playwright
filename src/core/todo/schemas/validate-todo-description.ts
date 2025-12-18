@@ -1,10 +1,10 @@
 
-type validadeTodoDescriptionProps= {
+type validateTodoDescriptionProps= {
     success: boolean,
     errors: string[]
 }
 
-export function validadeTodoDescription(description: string): validadeTodoDescriptionProps {
+export function validateTodoDescription(description: string): validateTodoDescriptionProps {
 const errors = [];
 
 if(description.length <= 3) {
