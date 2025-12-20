@@ -5,7 +5,7 @@ describe('sanitezeStr (unit)', () => {
 test('retorna uma string vazia quando receber um valor false', () => {
 
    // @ts-expect-error testado o retorno do teste
-expect(sanitizeStr()).toBe(' ');
+expect(sanitizeStr()).toBe('');
 });
 
 test('retorna uma string vazia quando receber um valor que não e uma string', () => {
