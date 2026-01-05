@@ -8,9 +8,9 @@ import { eq } from "drizzle-orm";
 
 export class DrizzleTodoRepository implements TodoContractRepository {
 
-    private readonly db: DrizzleDatabase;
+    
 
-constructor(db: DrizzleDatabase) {
+constructor( private readonly db: DrizzleDatabase) {
 this.db = db;
 }
 
