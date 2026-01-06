@@ -8,7 +8,6 @@ import { eq } from "drizzle-orm";
 
 export class DrizzleTodoRepository implements TodoContractRepository {
 
-    
 
 constructor( private readonly db: DrizzleDatabase) {
 this.db = db;
@@ -27,7 +26,7 @@ this.db = db;
         if(!!existinTodo) {
             return {
                 success: false,
-                errors: ['Todo já existe com essa descrição ou ID'],
+                errors: ['todo já existe com esse ID ou descrição'],
             }
         }
         
@@ -40,11 +39,11 @@ this.db = db;
         }
     }
     async remove(id: string): Promise<TodoPresenter> {
-          const existinTodo = await this.db.query.todo.findFirst({
+        const existinTodo = await this.db.query.todo.findFirst({
             where: (todoTable, {eq}) => eq(todoTable.id, id)
         });
 
-              if(!existinTodo) {  // se o todo não existir//
+              if(!existinTodo) {  //verificar se o todo existir na base de dados //
             return { 
                 success: false,
                 errors: ['Todo não existe'],
@@ -52,12 +51,12 @@ this.db = db;
 
             
         }
-         await this.db.delete(todoTableSchema).where(eq(todoTableSchema.id, id)); // deletando o todo da tabela//
+         await this.db.delete(todoTableSchema).where(eq(todoTableSchema.id, id)); // se existir  deletando o todo da tabela//
 
-         return {
+        return {
             success: true,
             todo: existinTodo
-         }
+        }
     }
     
     
