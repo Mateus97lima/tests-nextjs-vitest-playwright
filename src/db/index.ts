@@ -6,19 +6,18 @@ import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 
 
 const makeDrizzle = () => {
- const {databaseFile, drizzleMigrationFolder, currentEnv} = getFullEnv();
- const sqliteDatabase = new Database(databaseFile);
-
- const db = drizzle(sqliteDatabase, {
+const {databaseFile, drizzleMigrationFolder, currentEnv} = getFullEnv();
+const sqliteDatabase = new Database(databaseFile);
+const db = drizzle(sqliteDatabase, {
     schema: {todo: todoTableSchema},
 
- });
+});
 
- if(['test', 'e2e'].includes(currentEnv)) {
+if(['test', 'e2e'].includes(currentEnv)) {
     migrate(db, {migrationsFolder: drizzleMigrationFolder});
- }
+}
 
- return db;
+return db;
 };
 
 declare global {
