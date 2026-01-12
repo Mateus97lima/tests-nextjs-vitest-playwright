@@ -5,6 +5,8 @@ import { drizzle } from "drizzle-orm/better-sqlite3";
 import { migrate } from "drizzle-orm/better-sqlite3/migrator";
 
 
+
+
 const makeDrizzle = () => {
 const {databaseFile, drizzleMigrationFolder, currentEnv} = getFullEnv();
 const sqliteDatabase = new Database(databaseFile);

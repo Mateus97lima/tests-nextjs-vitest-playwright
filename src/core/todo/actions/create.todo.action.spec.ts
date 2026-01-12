@@ -1,8 +1,6 @@
 
-import { revalidatePath } from "next/cache";
-import { MakeInválido, MakeVálido } from "../schemas/todo.contract"
-import * as createTodoUseCaseMod  from "../usecases/create-todo.usecase"
 import { createTodoAction } from "./create.todo.action";
+import { makeTestTodoMocks } from "@/core/__test__/utils/make-test-todo-mocks";
 
 vi.mock('next/cache', () => {
     return {
@@ -12,7 +10,7 @@ vi.mock('next/cache', () => {
 
 describe('CreateTodoAction (unit)', () => {
     test('deve chama createTodoUseCase com os valores corretos ', async () => {
-    const {createTodoUseCaseSpy} = makeMocks();
+    const {createTodoUseCaseSpy} = makeTestTodoMocks();
 
     const description = 'any-description';
 
@@ -22,16 +20,16 @@ describe('CreateTodoAction (unit)', () => {
     })
 
     test('deve chama revalidatePath em caso de sucesso ', async () => {
-        const {revalidatePathMocked} = makeMocks();
+        const {revalidatePathMocked} = makeTestTodoMocks();
         const description = 'any-description';
 
     await createTodoAction(description);
 
-    expect(revalidatePathMocked).toHaveBeenCalledExactlyOnceWith('/todo');
+    expect(revalidatePathMocked).toHaveBeenCalledExactlyOnceWith('/');
     })
 
     test('deve retornar o mesmo valor do useCase em caso de succeso  ', async () => {
-        const { successResult} = makeMocks();
+        const { successResult} = makeTestTodoMocks();
 
     const description = 'any-description';
 
@@ -42,7 +40,7 @@ describe('CreateTodoAction (unit)', () => {
     })
 
     test('deve retornar o mesmo valor do useCase em caso de error  ', async () => {
-    const {createTodoUseCaseSpy ,errorResult} = makeMocks();
+    const {createTodoUseCaseSpy ,errorResult} = makeTestTodoMocks();
     createTodoUseCaseSpy.mockResolvedValueOnce(errorResult);
 
     const description = 'any-description';
@@ -53,31 +51,3 @@ describe('CreateTodoAction (unit)', () => {
     })
 })
 
-const makeMocks = () => {
-
-    const successResult = {
-    success:true,
-    todo:{
-        id:'any-id',
-        description:'any-description',
-        createdAt:new Date().toISOString(),
-    }
-    } as MakeVálido
-
-    const errorResult = {
-    success:false,
-    errors: ['error']
-    } as MakeInválido
-
-
-    const createTodoUseCaseSpy = vi
-    .spyOn(createTodoUseCaseMod, "createTodoUseCase").mockResolvedValue(successResult)
-
-    const revalidatePathMocked = vi.mocked(revalidatePath)
-    return {
-        createTodoUseCaseSpy,
-        revalidatePathMocked,
-        errorResult,
-        successResult,
-    }
-}
